@@ -1,18 +1,20 @@
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, FlatList } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const Posts = ({ navigation }) => {
 
     const [postsData, setPostsData] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const api = `https://jsonplaceholder.typicode.com/posts`;
+    const limit = `?_limit=20`;
     const ClosePage = () => {
         navigation.goBack();
     }
 
     const fetchPosts = async () => {
-        const resp = await fetch(`https://jsonplaceholder.typicode.com/posts`);
+        const resp = await fetch(api + limit);
         const postsData = await resp.json();
         setPostsData(postsData);
         setLoading(false);
@@ -26,17 +28,17 @@ const Posts = ({ navigation }) => {
 
     const postsInfo = ({ item }) => {
         return (
-          <View style={styles.view}>
-            <TouchableOpacity onPress={() => navigation.navigate('PostsById', {postsId: item.id})}>
-              <View style={styles.view2}>
-                <Text style={styles.text}>{item.title}</Text>
-              </View>
-    
-            </TouchableOpacity>
-    
-          </View>
+            <View style={styles.view}>
+                <TouchableOpacity onPress={() => navigation.navigate('PostsById', { postsId: item.id })}>
+                    <View style={styles.view2}>
+                        <Text style={styles.text}>{item.title.toUpperCase()}</Text>
+                    </View>
+
+                </TouchableOpacity>
+
+            </View>
         )
-      }
+    }
 
     return (
         <SafeAreaView>
@@ -44,14 +46,14 @@ const Posts = ({ navigation }) => {
 
                 <TouchableOpacity onPress={ClosePage}>
                     <View style={styles.back}>
-                        <Text>Back</Text>
+                        <Icon name="chevron-back-outline" size={35}></Icon>
                     </View>
                 </TouchableOpacity>
 
 
                 <View style={styles.container}>
 
-                    {loading ? <ActivityIndicator /> : (
+                    {loading ? <ActivityIndicator color={'white'} /> : (
                         <FlatList
                             data={postsData}
                             keyExtractor={({ id }, index) => id}
@@ -76,36 +78,33 @@ const styles = StyleSheet.create({
 
     text: {
         flex: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : -12,
-        color: 'black',
+        fontSize: 16,
+        fontWeight: "400",
+        color: "white",
         fontWeight: 'bold',
-        fontSize: 14,
-        textAlign: 'center'
+        flexWrap: 'wrap'
     },
 
     view: {
-        backgroundColor: "#e8e8e8",
-
-
+        height: "auto",
+        width: "auto",
+        borderColor: "#ddd",
+        backgroundColor: "#00cca3",
+        borderWidth: 0.5,
         borderRadius: 10,
-        marginVertical: 10,
-
-        marginHorizontal: 40,
+        marginTop: '5%',
+        marginHorizontal: '5%',
+        overflow: "hidden"
     },
 
     view2: {
         padding: 10,
-        alignItems: 'center',
         flexDirection: "row",
     },
 
     back: {
         padding: 10,
-        backgroundColor: "#e8e8e8",
-        flexDirection: "row",
-        borderRadius: 10,
         marginVertical: 10,
-        marginHorizontal: 40,
     }
 
 })

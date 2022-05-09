@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from '../pages/Home';
 import Users from '../pages/Users';
 import Posts from '../pages/Posts';
@@ -8,6 +9,20 @@ import UsersById from '../pages/UsersById';
 import PostsById from '../pages/PostsById';
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const BottomTab = () => {
+  
+  return (
+      <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Users" component={Users} />
+        <Tab.Screen name="Posts" component={Posts} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  )
+
+}
 
 const Route = () => {
   return (

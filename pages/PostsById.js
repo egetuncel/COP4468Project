@@ -1,25 +1,26 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const PostsById = ({ navigation, route }) => {
 
     const { postsId } = route.params;
     const [postsDetail, setPostsDetail] = useState([]);
     const [loading, setLoading] = useState(true);
-
+    const api = `https://jsonplaceholder.typicode.com/posts/${postsId}`;
 
     const ClosePage = () => {
         navigation.goBack();
     }
 
     const fetchPostsById = async () => {
-        const resp = await fetch(`https://jsonplaceholder.typicode.com/posts/${postsId}`);
+        const resp = await fetch(api);
         const postsDetail = await resp.json();
         setPostsDetail(postsDetail);
         setLoading(false);
         console.log(postsDetail);
-    };  
+    };
 
     useEffect(() => {
         fetchPostsById();
@@ -30,27 +31,27 @@ const PostsById = ({ navigation, route }) => {
         <SafeAreaView>
             <TouchableOpacity onPress={ClosePage}>
                 <View style={styles.back}>
-                    <Text>Back</Text>
+                    <Icon name="chevron-back-outline" size={35}></Icon>
                 </View>
             </TouchableOpacity>
             <View>
 
                 {/* 1. tittle */}
                 <View style={styles.container}>
+                    {loading ? <ActivityIndicator color={'white'} /> : (
+                        <View>
+                            <View style={styles.viewStyle}>
 
-                    <View>
+                                <Text style={styles.textTitle}>{postsDetail.title.toUpperCase()}</Text>
 
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{postsDetail.title}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{postsDetail.body}</Text>
-                        
-                    </View>
+                            </View>
+                            <View style={styles.viewStyle}>
 
+                                <Text style={styles.textStyle}>{postsDetail.body}</Text>
+                            </View>
+
+                        </View>
+                    )}
                 </View>
 
 
@@ -64,41 +65,45 @@ export default PostsById
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: '5%',
-    },
-
-    text: {
-        flex: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : -12,
-        color: 'black',
-        fontWeight: 'bold',
-        fontSize: 14,
-        textAlign: 'center'
-    },
-
-    view: {
-        backgroundColor: "#e8e8e8",
-
-
+        height: "auto",
+        width: "auto",
+        borderColor: "#ddd",
+        backgroundColor: "#00cca3",
+        borderWidth: 0.5,
         borderRadius: 10,
-        marginVertical: 10,
-
-        marginHorizontal: 40,
+        marginVertical: '5%',
+        marginHorizontal: '5%',
+        overflow: "hidden"
     },
 
-    view2: {
-        padding: 10,
-        alignItems: 'center',
+    textTitle: {
+        fontSize: 18,
+        fontWeight: "bold",
+        paddingVertical: '5%',
+        paddingHorizontal: '3%',
+        color: "white"
+    },
+
+
+
+    viewStyle: {
         flexDirection: "row",
+        paddingLeft: 10,
+    },
+
+    textStyle: {
+        flex: 1,
+        fontSize: 16,
+        fontWeight: "400",
+        paddingVertical: '3%',
+        color: "white",
+        flexWrap: 'wrap'
+
     },
 
     back: {
         padding: 10,
-        backgroundColor: "#e8e8e8",
-        flexDirection: "row",
-        borderRadius: 10,
         marginVertical: 10,
-        marginHorizontal: 40,
     }
 
 })

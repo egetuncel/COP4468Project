@@ -1,17 +1,14 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator, ScrollView } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-
-
-
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const UsersById = ({ navigation, route }) => {
 
     const { userId } = route.params;
     const [usersDetail, setUsersDetail] = useState([]);
     const [loading, setLoading] = useState(true);
-    
+    const api = `https://jsonplaceholder.typicode.com/users/${userId}`;
 
     const ClosePage = () => {
         navigation.goBack();
@@ -20,7 +17,7 @@ const UsersById = ({ navigation, route }) => {
     const fetchUsersDetail = async () => {
 
 
-        const resp = await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`);
+        const resp = await fetch(api);
         const usersDetail = await resp.json();
         setUsersDetail(usersDetail);
         setLoading(false);
@@ -34,80 +31,100 @@ const UsersById = ({ navigation, route }) => {
 
     return (
         <SafeAreaView>
+             <ScrollView>
             <TouchableOpacity onPress={ClosePage}>
                 <View style={styles.back}>
-                    <Text>Back</Text>
+                    <Icon name="chevron-back-outline" size={35}></Icon>
                 </View>
             </TouchableOpacity>
+           
+
+            
             <View>
-
-                {/* 1. tittle */}
                 <View style={styles.container}>
+                    <Text h1 style={styles.textTitle}>User Detail</Text>
 
-                    <View>
 
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.name}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.username}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.email}</Text>
-                        {/* <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.address.street}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.address.suite}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.address.city}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.address.zipcode}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.address.geo.lat}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.address.geo.lng}</Text> */}
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.phone}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.website}</Text>
-                        {/* <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.company.name}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.company.catchPhrase}</Text>
-                        <Text style={{
-                            textAlign: 'center', color: 'black', fontWeight: 'bold', fontSize: 24,
-                            marginLeft: 30, marginRight: 30
-                        }}>{usersDetail.company.bs}</Text> */}
+
+                    <View style={{ paddingVertical:'5%' }}>
+                    {loading ? <ActivityIndicator color={'white'}/> : (
+                        <View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Name Surname: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.name}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Username: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.username}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Email: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.email}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Phone: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.phone}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Website: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.website}</Text>
+                            </View>
+
+                            <Text h1 style={styles.textTitle}>Address</Text>
+
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Street: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.address.street}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Suite: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.address.suite}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>City: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.address.city}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Zipcode: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.address.zipcode}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Lat: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.address.geo.lat}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Lng: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.address.geo.lng}</Text>
+                            </View>
+
+                            <Text h1 style={styles.textTitle}>Company Detail</Text>
+
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Name: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.company.name}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>Catch Phrase: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.company.catchPhrase}</Text>
+                            </View>
+                            <View style={styles.viewStyle}>
+                                <Text style={styles.textStyleLeft}>BS: </Text>
+                                <Text style={styles.textStyle}>{usersDetail.company.bs}</Text>
+                            </View>
+
+
+                           
+                      
+                        </View>
+                         )}
                     </View>
+                   
 
                 </View>
 
-
+                        
             </View>
+            </ScrollView>
         </SafeAreaView>
 
     )
@@ -117,41 +134,53 @@ export default UsersById
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: '5%',
-    },
-
-    text: {
-        flex: 1,
-        marginTop: Platform.OS === 'ios' ? 0 : -12,
-        color: 'black',
-        fontWeight: 'bold',
-        fontSize: 14,
-        textAlign: 'center'
-    },
-
-    view: {
-        backgroundColor: "#e8e8e8",
-
-
+        height: "auto",
+        width: "auto",
+        borderColor: "#ddd",
+        backgroundColor: "#00cca3",
+        borderWidth: 0.5,
         borderRadius: 10,
-        marginVertical: 10,
-
-        marginHorizontal: 40,
+        marginTop: '5%',
+        marginHorizontal: '5%',
+        overflow: "hidden"
     },
 
-    view2: {
-        padding: 10,
-        alignItems: 'center',
+    textTitle: {
+        fontSize: 20, 
+        fontWeight: "bold", 
+        paddingTop: '5%', 
+        paddingLeft: '3%', 
+        color: "white"
+    },
+
+    
+
+    viewStyle: {
         flexDirection: "row",
+        paddingLeft: 10,
+    },
+
+    textStyleLeft: {
+        fontSize: 16,
+        fontWeight: "400",
+        paddingVertical: '2%',
+        color: "white",
+        fontWeight: 'bold',
+    },
+
+    textStyle: {
+        flex: 1,
+        fontSize: 16,
+        fontWeight: "400",
+        paddingVertical: '2%',
+        color: "white",
+        flexWrap: 'wrap'
+        
     },
 
     back: {
         padding: 10,
-        backgroundColor: "#e8e8e8",
-        flexDirection: "row",
-        borderRadius: 10,
         marginVertical: 10,
-        marginHorizontal: 40,
     }
 
 })

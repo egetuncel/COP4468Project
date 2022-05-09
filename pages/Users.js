@@ -13,7 +13,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { fetchUsersById } from './UsersById';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 const Users = ({ navigation }) => {
 
@@ -37,9 +37,10 @@ const Users = ({ navigation }) => {
   const usersInfo = ({ item }) => {
     return (
       <View style={styles.view}>
-        <TouchableOpacity onPress={() => navigation.navigate('UsersById', {userId: item.id})}>
+        <TouchableOpacity onPress={() => navigation.navigate('UsersById', { userId: item.id })}>
           <View style={styles.view2}>
             <Text style={styles.text}>{item.name}</Text>
+            <Icon name="arrow-forward-outline" style={{color:'white'}} size={22}></Icon>
           </View>
 
         </TouchableOpacity>
@@ -59,14 +60,15 @@ const Users = ({ navigation }) => {
 
         <TouchableOpacity onPress={ClosePage}>
           <View style={styles.back}>
-            <Text>Back</Text>
+            <Icon name="chevron-back-outline" size={35}></Icon>
           </View>
         </TouchableOpacity>
 
+        
 
         <View style={styles.container}>
 
-          {loading ? <ActivityIndicator /> : (
+          {loading ? <ActivityIndicator color={'white'} /> : (
             <FlatList
               data={usersData}
               keyExtractor={({ id }, index) => id}
@@ -88,25 +90,29 @@ const Users = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     marginTop: '5%',
+    marginHorizontal: '5%',
   },
 
   text: {
     flex: 1,
-    marginTop: Platform.OS === 'ios' ? 0 : -12,
-    color: 'black',
+    fontSize: 16,
+    fontWeight: "400",
+    color: "white",
     fontWeight: 'bold',
-    fontSize: 14,
-    textAlign: 'center'
+    
+    flexWrap: 'wrap'
   },
 
+  
+
   view: {
-    backgroundColor: "#e8e8e8",
-
-
+    height: "auto",
+    width: "auto",
+    borderColor: "#ddd",
+    backgroundColor: "#00cca3",
+    borderWidth: 0.5,
     borderRadius: 10,
-    marginVertical: 10,
-
-    marginHorizontal: 40,
+    marginTop: '5%',
   },
 
   view2: {
@@ -117,11 +123,7 @@ const styles = StyleSheet.create({
 
   back: {
     padding: 10,
-    backgroundColor: "#e8e8e8",
-    flexDirection: "row",
-    borderRadius: 10,
     marginVertical: 10,
-    marginHorizontal: 40,
   }
 
 })

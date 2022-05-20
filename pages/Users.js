@@ -30,16 +30,12 @@ const Users = ({ navigation }) => {
     setLoading(false);
   };
 
-  const ClosePage = () => {
-    navigation.goBack();
-  }
-
   const usersInfo = ({ item }) => {
     return (
       <View style={styles.view}>
         <TouchableOpacity onPress={() => navigation.navigate('UsersById', { userId: item.id })}>
           <View style={styles.view2}>
-            <Text style={styles.text}>{item.name}</Text>
+            <Text style={styles.text}>{item.name.toUpperCase()}</Text>
             <Icon name="arrow-forward-outline" style={{color:'white'}} size={22}></Icon>
           </View>
 
@@ -56,14 +52,6 @@ const Users = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView>
-
-
-        <TouchableOpacity onPress={ClosePage}>
-          <View style={styles.back}>
-            <Icon name="chevron-back-outline" size={35}></Icon>
-          </View>
-        </TouchableOpacity>
-
         
 
         <View style={styles.container}>

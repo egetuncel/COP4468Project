@@ -42,7 +42,7 @@ const UsersById = ({ navigation, route }) => {
             
             <View>
                 <View style={styles.container}>
-                    <Text h1 style={styles.textTitle}>User Detail</Text>
+                    <Text h1 style={styles.textTitle}>DETAILS</Text>
 
 
 

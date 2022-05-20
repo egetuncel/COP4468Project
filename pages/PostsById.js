@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     textTitle: {
         fontSize: 18,
         fontWeight: "bold",
-        paddingVertical: '5%',
+        paddingTop: '5%',
         paddingHorizontal: '3%',
         color: "white"
     },

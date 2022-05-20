@@ -9,16 +9,12 @@ const Posts = ({ navigation }) => {
     const [loading, setLoading] = useState(true);
     const api = `https://jsonplaceholder.typicode.com/posts`;
     const limit = `?_limit=20`;
-    const ClosePage = () => {
-        navigation.goBack();
-    }
 
     const fetchPosts = async () => {
         const resp = await fetch(api + limit);
         const postsData = await resp.json();
         setPostsData(postsData);
         setLoading(false);
-        //console.log(postsData);
 
     };
 
@@ -32,6 +28,7 @@ const Posts = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.navigate('PostsById', { postsId: item.id })}>
                     <View style={styles.view2}>
                         <Text style={styles.text}>{item.title.toUpperCase()}</Text>
+                        <Icon name="arrow-forward-outline" style={{color:'white'}} size={22}></Icon>
                     </View>
 
                 </TouchableOpacity>
@@ -43,12 +40,6 @@ const Posts = ({ navigation }) => {
     return (
         <SafeAreaView>
             <ScrollView>
-
-                <TouchableOpacity onPress={ClosePage}>
-                    <View style={styles.back}>
-                        <Icon name="chevron-back-outline" size={35}></Icon>
-                    </View>
-                </TouchableOpacity>
 
 
                 <View style={styles.container}>
@@ -100,6 +91,8 @@ const styles = StyleSheet.create({
     view2: {
         padding: 10,
         flexDirection: "row",
+        position: 'relative',
+        alignItems:'center'
     },
 
     back: {

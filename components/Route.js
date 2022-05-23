@@ -6,7 +6,7 @@ import Home from '../pages/Home';
 import Users from '../pages/Users';
 import Posts from '../pages/Posts';
 import UsersById from '../pages/UsersById';
-import PostsById from '../pageßs/PostsById';
+import PostsById from '../pages/PostsById';
 
 const Stack = createNativeStackNavigator();
 
